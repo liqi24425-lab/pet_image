@@ -107,7 +107,8 @@ We transitioned to end-to-end deep learning and hyperparameter tuning.
   * weighted OOF: `0.9067`
   * meta true OOF: `0.8956`
   * hybrid OOF (`alpha=0.25`): `0.9067`, macro-F1 `0.9066`
-* **Decision:** `v13` reaches submit-ready offline quality and is the next single candidate for leaderboard verification.
+* **Leaderboard check (2026-03-06):** `submission_final_team_v13.csv` scored `0.92000`, below `v10` (`0.92666`).
+* **Decision:** keep `v13` as analysis-only; `v10` remains the only team default submit file.
 
 ---
 
@@ -134,9 +135,9 @@ python final_breakthrough_v10.py
 
 ## 📌 Next Actions (Team Plan)
 
-1. Use exactly one new attempt: `submission_final_team_v13.csv`.
-2. If leaderboard score does not improve over current best, immediately fall back to `submission_final_team_v10.csv`.
-3. Keep all other generated submissions as `analysis-only` and do not submit them.
+1. Keep `submission_final_team_v10.csv` as the only default submission file.
+2. Treat `v13` and newer files as `analysis-only` until they beat `v10` on leaderboard.
+3. Continue offline single-variable ablations to avoid wasting team submission quota.
 
 ## 🧭 v10 Experiment Protocol (Single Submission)
 
