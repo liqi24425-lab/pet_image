@@ -1,5 +1,5 @@
 # STA314H — Pet Facial Expression Classifier (宠物面部表情分类器)
-🏆 **Final Score: 0.913**
+🏆 **Final Score: 0.920**
 
 > **Course**: STA314H Statistical Machine Learning — University of Toronto  
 > **Task**: 3-class pet facial expression classification (Angry / Happy / Sad)  
@@ -8,7 +8,7 @@ This project documents the entire evolutionary journey of a high-performance ima
 
 ---
 
-## 🚀 The Path to 0.913: Model Evolution & Experimental Analysis
+## 🚀 The Path to 0.920: Model Evolution & Experimental Analysis
 
 Building this classifier was a continuous process of hypothesis, experimentation, and physiological analysis of pet expressions. Below is the complete record of our model evolution, from early statistical baselines to our final winning deep learning architecture.
 
@@ -68,6 +68,12 @@ We transitioned to end-to-end deep learning and hyperparameter tuning.
   * **Strategy:** Employed the most brute-force approach using **DINOv2-Giant** (1536 dimensions) and a massive 10-Crop full-image cropping strategy.
   * **Conclusion & Analysis:** **Curse of Dimensionality and Noise Backlash.** Over 4096 dimensions triggered severe overfitting. The 10-crop strategy generated patches containing non-informative background areas (wall corners, grass), introducing fatal background noise that biased the model.
 
+### 🚀 Phase 5: Team Submission Upgrade
+
+* **Score: 0.92000 🥇 | `submission_final_team.csv`**
+  * **Strategy:** Keep the strongest OOF-stacked decision rule as a single team-safe submission (`submission_final_team.csv` copied from `submission_oof_stack.csv`) and avoid risky daily over-submission.
+  * **Conclusion & Analysis:** The OOF-based stacking pipeline generalized better than earlier single-head or aggressive pseudo-label variants, yielding a new public leaderboard best of **0.92000**.
+
 ---
 
 ## 🛠 Project Structure & Early Phases
@@ -78,7 +84,7 @@ For historical tracking, the repository includes all our preliminary experiments
 - **Phase 6**: Statistical Diagnostics (MC Dropout Uncertainty, Grad-CAM, Error Correlation Analysis).
 
 ## ⚙️ How to Reproduce the Winning Submission
-To generate the final Kaggle submission with the peak 0.913 score:
+To generate the final Kaggle submission and team version:
 
 ```bash
 # 1. Activate the environment
@@ -86,4 +92,55 @@ source .venv/bin/activate
 
 # 2. Run the winning inference script
 python final_breakthrough_v4.py
+
+# 3. Use the team-final file (single submission target)
+# submission_final_team.csv
 ```
+
+## 📌 Next Actions (Team Plan)
+
+1. Keep `submission_final_team.csv` as the only default submission artifact for team coordination.
+2. Run offline ablation only (no blind multi-submit): compare `baseline_weighted` vs `oof_stack` vs `pseudo_label` on local OOF metrics before spending submission quota.
+3. Investigate the 6 disagreement samples across current variants as a targeted error-analysis set to design the next high-confidence update.
+
+## 🧭 v10 Experiment Protocol (Single Submission)
+
+`final_breakthrough_v10.py` is the new clean mainline for iterative improvement.
+
+Core outputs:
+
+- `submission_final_team_v10.csv` (only submission candidate)
+- `v10_oof_metrics.json` (metrics + risk gates)
+- `v10_run_manifest.json` (deterministic config + runtime metadata)
+
+Team submission rule:
+
+1. Only submit `submission_final_team_v10.csv`.
+2. Treat all other generated files as `analysis-only`.
+3. Promote a run only if OOF remains stable and label drift is within gate.
+
+Single-variable experiment matrix:
+
+| Iteration | Variable changed | Default | Candidate values |
+|---|---|---|---|
+| V10-A | TTA model-weight search range | current grid | narrow around best |
+| V10-B | Pseudo confidence threshold | 0.92 | 0.90 / 0.93 |
+| V10-C | Pseudo entropy threshold | 0.23 | 0.20 / 0.25 |
+| V10-D | Pseudo sample weight | 0.30 | 0.20 / 0.40 |
+
+Dual-track HF workflow (analysis-only):
+
+1. Use HF Jobs to run expansion experiments.
+2. Use Trackio to log OOF and pseudo-label diagnostics.
+3. Append run summaries to `hf/v10_experiments_registry.csv`.
+4. Use Dataset Viewer read-only APIs to inspect remote experiment tables.
+
+## 🧪 Label Noise & Bias Discussion (for Kaggle Report)
+
+This task has unavoidable subjectivity: pet expressions can be ambiguous, and labels such as Angry/Happy/Sad may be noisy around borderline cases. We addressed this with three safeguards:
+
+1. **Noise-robust supervision**: use label smoothing and weighted cross-entropy in first-level probes to avoid over-confident fitting to potentially noisy labels.
+2. **Consistency pseudo-labeling**: add pseudo labels only when all three backbones (DINOv2-Large, EfficientNet-B5, CLIP) agree after 4-way TTA averaging, with strict confidence and entropy thresholds.
+3. **OOF-based calibration**: use 5-fold out-of-fold stacking to reduce overfitting from high-dimensional feature fusion and to improve probability calibration.
+
+Potential bias sources include background/lighting artifacts and cross-species visual diversity. We mitigated them with center-focused TTA (zoom/flip variants), multi-backbone feature diversity, and strict pseudo-label gating.
