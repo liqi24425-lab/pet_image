@@ -96,6 +96,19 @@ We transitioned to end-to-end deep learning and hyperparameter tuning.
 * **Decision:** `v12` is analysis-only for now, **not promoted** to team default submit file.
 * **Why EffNetV2-L was removed:** in `v11`, EffNetV2-L OOF dropped to ~`0.473`, causing ensemble instability and lowering stack quality. We rolled back to EffNet-B5 because it is materially more reliable on this 450-sample regime.
 
+### 🧪 Phase 8: Hybrid Stack Stabilization (`v13`)
+
+* **Experiment:** `final_breakthrough_v13_hybrid_stack.py`
+  * **Change:** Keep `DINOv2-L + EffNet-B5 + CLIP-L/14`, replace direct stack decision with a true-OOF-calibrated hybrid head:
+    * compute `weighted_oof` from model-level OOF probabilities,
+    * compute `meta_true_oof` with fold-wise meta prediction,
+    * tune `alpha` on OOF for `hybrid = alpha * meta + (1 - alpha) * weighted`.
+* **Offline finding (OOF):**
+  * weighted OOF: `0.9067`
+  * meta true OOF: `0.8956`
+  * hybrid OOF (`alpha=0.25`): `0.9067`, macro-F1 `0.9066`
+* **Decision:** `v13` reaches submit-ready offline quality and is the next single candidate for leaderboard verification.
+
 ---
 
 ## 🛠 Project Structure & Early Phases
@@ -121,9 +134,9 @@ python final_breakthrough_v10.py
 
 ## 📌 Next Actions (Team Plan)
 
-1. Keep `submission_final_team_v10.csv` as the only default submission artifact for team coordination.
-2. Run offline ablation only (no blind multi-submit): compare `v10` vs `v12` under identical seeds and report only if stack OOF improves.
-3. Investigate the 6 disagreement samples (`v10` vs `v12`) as a targeted error-analysis set before any new leaderboard attempt.
+1. Use exactly one new attempt: `submission_final_team_v13.csv`.
+2. If leaderboard score does not improve over current best, immediately fall back to `submission_final_team_v10.csv`.
+3. Keep all other generated submissions as `analysis-only` and do not submit them.
 
 ## 🧭 v10 Experiment Protocol (Single Submission)
 
