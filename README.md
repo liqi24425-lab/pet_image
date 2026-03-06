@@ -110,6 +110,20 @@ We transitioned to end-to-end deep learning and hyperparameter tuning.
 * **Leaderboard check (2026-03-06):** `submission_final_team_v13.csv` scored `0.92000`, below `v10` (`0.92666`).
 * **Decision:** keep `v13` as analysis-only; `v10` remains the only team default submit file.
 
+### 🧪 Phase 9: Robust Prior + Reliability Reweight (`v14`, offline)
+
+* **Experiment:** `final_breakthrough_v14_robust_prior.py`
+* **Change:** reliability-based sample reweighting + Bayesian-style prior adaptation at inference.
+* **Offline finding:** stack OOF dropped to `0.9000`; drift vs `v10` increased.
+* **Decision:** reject `v14` (analysis-only, no submission).
+
+### 🧪 Phase 10: Seed-Ensemble Probe Stabilization (`v15`, offline)
+
+* **Experiment:** `final_breakthrough_v15_seed_ensemble.py`
+* **Change:** keep `v10` backbone/data flow, but ensemble linear probes over seeds `(42, 52, 62)` for OOF and test probabilities.
+* **Offline finding:** stack OOF `0.9178`, macro-F1 `0.9177`; prediction drift vs `v10` only `0.33%` (2/300 samples).
+* **Decision:** keep as the **next single candidate** for one controlled leaderboard attempt.
+
 ---
 
 ## 🛠 Project Structure & Early Phases
@@ -136,8 +150,8 @@ python final_breakthrough_v10.py
 ## 📌 Next Actions (Team Plan)
 
 1. Keep `submission_final_team_v10.csv` as the only default submission file.
-2. Treat `v13` and newer files as `analysis-only` until they beat `v10` on leaderboard.
-3. Continue offline single-variable ablations to avoid wasting team submission quota.
+2. For the next attempt, use only one candidate file: `submission_final_team_v15.csv`.
+3. If `v15` does not beat `v10`, immediately revert to `submission_final_team_v10.csv` as the sole submit target.
 
 ## 🧭 v10 Experiment Protocol (Single Submission)
 

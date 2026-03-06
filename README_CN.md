@@ -13,6 +13,8 @@
 - `v10`：已验证可用，曾拿到更高公开榜分数。
 - `v12`：离线无稳定收益，不建议提交。
 - `v13`：离线看起来更好，但线上公开榜退步（`0.92000`），暂不作为默认提交版本。
+- `v14`：离线回退（stack OOF 下降到 `0.9000`），淘汰。
+- `v15`：离线显著提升且与 v10 漂移很小，作为下一次“单次尝试”候选。
 
 `v13` 离线核心结果（`v13_oof_metrics.json`）：
 
@@ -32,32 +34,34 @@
 
 ## 4. 你现在该提交哪个文件
 
-当前唯一默认提交文件：
+当前默认提交文件：
 
 - `submission_final_team_v10.csv`
 
 说明：
 - `v13` 已在 2026-03-06 验证公开榜 `0.92000`，低于 `v10` 的 `0.92666`，因此归档为 `analysis-only`。
+- `v15` 是下一次唯一可尝试候选：`submission_final_team_v15.csv`（只尝试一次）。
 
 ## 5. 关键脚本与产物
 
-- 主脚本（新）：`final_breakthrough_v13_hybrid_stack.py`
-- 指标：`v13_oof_metrics.json`
-- 运行配置：`v13_run_manifest.json`
-- 伪标签记录：`v13_pseudo_labels_consensus.csv`
+- `v13` 主脚本：`final_breakthrough_v13_hybrid_stack.py`
+- `v14` 主脚本：`final_breakthrough_v14_robust_prior.py`
+- `v15` 主脚本：`final_breakthrough_v15_seed_ensemble.py`
+- `v15` 指标：`v15_oof_metrics.json`
+- `v15` 运行配置：`v15_run_manifest.json`
 
 ## 6. 复现命令
 
 ```bash
 source .venv/bin/activate
-python final_breakthrough_v13_hybrid_stack.py
+python final_breakthrough_v15_seed_ensemble.py
 ```
 
 生成：
 
-- `submission_final_team_v13.csv`
-- `v13_oof_metrics.json`
-- `v13_run_manifest.json`
+- `submission_final_team_v15.csv`
+- `v15_oof_metrics.json`
+- `v15_run_manifest.json`
 
 ## 7. 团队协作建议（简版）
 
