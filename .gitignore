@@ -12,3 +12,15 @@ torch_cache/
 vit_checkpoint/
 __pycache__/
 .DS_Store
+
+# Temporary local variants
+*runfix.py
+*runfast.py
+
+# v10 generated artifacts
+submission_final_team_v10.csv
+v10_oof_metrics.json
+v10_run_manifest.json
+v10_pseudo_labels_consensus.csv
+hf/v10_experiments_registry.csv
+oof_metrics.json
