@@ -125,6 +125,13 @@ We transitioned to end-to-end deep learning and hyperparameter tuning.
 * **Leaderboard check (2026-03-06):** `submission_final_team_v15.csv` scored `0.92666`, tied with `v10`.
 * **Decision:** `v15` is stable but not superior; still a plateau run, not a new best.
 
+### 🧪 Phase 11: Adaptive ROI TTA for Off-Center Faces (`v16`, offline)
+
+* **Experiment:** `final_breakthrough_v16_adaptive_roi.py`
+* **Change:** replace center-zoom TTA with adaptive ROI crop (`roi`, `roi_flip`) that can shift away from image center.
+* **Offline finding:** stack OOF remained `0.9178` (same as `v15`), no measurable gain.
+* **Decision:** keep `v16` as analysis-only; off-center ROI handling is valid but not yet a score breakthrough.
+
 ---
 
 ## 🛠 Project Structure & Early Phases
