@@ -10,35 +10,63 @@ This project documents the entire evolutionary journey of a high-performance ima
 
 ## 🚀 The Path to 0.913: Model Evolution & Experimental Analysis
 
-Building this classifier was a continuous process of hypothesis, experimentation, and physiological analysis of pet expressions. Below are the 4 major breakthrough and experimental phases that guided us to the final winning score.
+Building this classifier was a continuous process of hypothesis, experimentation, and physiological analysis of pet expressions. Below is the complete record of our model evolution, from early statistical baselines to our final winning deep learning architecture.
 
-### 1. 奠定强基座 (Score: 0.906) —— `ultimate_god_mode.py`
-**Strategy:**
-Feature fusion between **EfficientNet** (designed to capture local facial textures) and **CLIP** (providing global semantic understanding), combined with high-confidence pseudo-labeling for data augmentation.
+### 🐣 Phase 1: Early Baselines & Feature Extraction
+We started with simple feature extraction and statistical machine learning to set a baseline.
 
-**Conclusion & Analysis:**
-This approach confirmed that the **"Feature Fusion + Semi-Supervised Learning"** direction was absolutely correct. However, we eventually hit a performance bottleneck. The root cause was that CLIP's global semantic embeddings introduced severe background context interference (anthropomorphic bias), which distracted the model from purely focusing on the facial expressions themselves.
+* **Score: 0.426 | `phase 2`**
+  * **Strategy:** PCA (Principal Component Analysis) + Ridge Regression.
+  * **Analysis:** Extracting basic eigenvalues (Eigenfaces) provided a low baseline score but proved that raw pixels need transformation.
+* **Score: 0.840 | `0.84`**
+  * **Strategy:** Basic CNN feature extractor + Ridge Regression.
+  * **Analysis:** First leap in performance. CNNs easily outperformed PCA in extracting spatial patterns from pet faces.
+* **Score: 0.760 | `0.84-advanced`**
+  * **Strategy:** CNN + Ridge Regression + Gradient Descent (GD) to optimize the minimum learning rate.
+  * **Analysis:** Encountered **overfitting** (Training Loss = 1), leading to a significant drop in test score.
 
-### 2. 遭遇横向冗余 (Score: 0.906) —— `mega_ensemble_v3.py`
-**Strategy:**
-Attempted to blindly increase feature dimensionality by adding **DINOv2-Small** (384 dimensions) into the ensemble.
+### 🔨 Phase 2: CNN Architectures & Optimization
+We transitioned to end-to-end deep learning and hyperparameter tuning.
 
-**Conclusion & Analysis:**
-This expansion proved to be **ineffective**. The newly introduced shallow features from DINOv2-Small highly overlapped with the existing EfficientNet representations. As a result of the L1 regularization (the "razor effect") in our ElasticNet classification head, these redundant features were directly filtered out, failing to provide any additional incremental information or performance gain.
+* **Score: 0.840 (v2) | `0.84-pro`**
+  * **Strategy:** CNN + Ridge Regression + Cross-Validation (CV) to optimize the `C` penalty matrix parameter.
+  * **Analysis:** CV helped stabilize the model back to 0.840 by properly tuning regularization.
+* **Score: 0.826 | `ultimate_baseline`**
+  * **Strategy:** End-to-end CNN + CV + Gradient Descent.
+  * **Analysis:** By removing the explicit Ridge layer and doing pure end-to-end GD optimization, we hit the best pure CNN baseline at the time.
+* **Score: 0.833 | `pro_max`**
+  * **Strategy:** End-to-end CNN + CV + GD + **KNN** (Weighted memory of local surroundings).
+  * **Analysis:** Adding a non-parametric K-Nearest Neighbors constraint improved local decision boundaries slightly.
+* **Score: 0.820 | `pro_max_v2`**
+  * **Strategy:** Replaced ResNet-18 with **EfficientNet-B0** in the `pro_max` pipeline.
+  * **Analysis:** EfficientNet is highly parameter-efficient but performed slightly worse without proper data scaling.
+* **Score: 0.800 | `submission-resnet50`**
+  * **Strategy:** Scaled ResNet-18 up to **ResNet-50** based on the `ultimate_baseline`.
+  * **Analysis:** Severe overfitting. A deeper network without matching data volumes hurt performance.
+* **Score: 0.806 | `0.84-lasso`**
+  * **Strategy:** Swapped Ridge (L2) for Lasso (L1) on top of the original 0.84 baseline.
+  * **Analysis:** Lasso's feature selection (setting weights to zero) was too aggressive for complex visual features, dropping the score.
+* **Score: 0.840 | `0.84-end-to-end`**
+  * **Strategy:** Dropped pre-trained heads entirely. Removed Ridge and Lasso, pure end-to-end deep learning from scratch.
+  * **Analysis:** Met the pre-trained baseline, proving our architecture and training pipeline were solid.
 
-### 3. 垂直深挖夺冠 (Score: 0.913) 🥇 —— `final_breakthrough_v4.py`
-**Strategy:**
-Upgraded the vision backbone to **DINOv2-Large** to capture fine facial muscle movements. Crucially, we introduced a **weighted Zoom (Center Crop) Test-Time Augmentation (TTA)** to aggressively force the model to focus purely on the animal's facial features.
+### 🌟 Phase 3: The Deep Learning Breakthroughs
 
-**Conclusion & Analysis:**
-**Accurate breakthrough!** DINOv2-Large provided an exceptionally high-quality "physiological landmark" resolution. By combining this with a local zoom-in strategy (Zoom TTA) that stripped away distracting edge background noise, the model perfectly hit the biological core rule of this dataset: *"Pet emotion classification highly depends on the eyes."* This extreme focus on the eyes and muzzle without environmental distraction led directly to our peak competition score.
+* **Score: 0.906 | `effnet-elastic` (`ultimate_god_mode.py`)**
+  * **Strategy:** **EfficientNet-B5** + Semi-supervised learning (added high-confidence test pseudo-labels back into training).
+  * **Conclusion & Analysis:** Confirmed that **"Feature Fusion + Semi-Supervised Learning"** direction was correct. However, we hit a bottleneck due to background context interference.
+* **Score: 0.906 | `god-mode` (`mega_ensemble_v3.py`)**
+  * **Strategy:** Added test data with pseudo labels, horizontally concatenated raw features (2048 + 512) into a massive 2560-dimensional space, and incorporated DINOv2-Small.
+  * **Conclusion & Analysis:** Blindly expanding features caused **horizontal redundancy**. The L1 penalty in our ElasticNet head zeroed out the overlapping redundant features, yielding no actual score gain.
 
-### 4. 过度参数化翻车 (Score: 0.900) —— `v6_giant_ultimate.py`
-**Strategy:**
-Employed the most brute-force parameter approach using **DINOv2-Giant** (1536 dimensions) along with a massive 10-Crop full-image cropping strategy.
+### 👑 Phase 4: Final Victory & Over-parameterization Trap
 
-**Conclusion & Analysis:**
-**Suffered from the Curse of Dimensionality and Noise Backlash.** With our relatively small dataset size, indiscriminately expanding the feature space to over 4096 dimensions triggered severe overfitting. Furthermore, the 10-crop strategy generated patches containing non-informative background areas (like wall corners or patches of grass). These irrelevant crops introduced fatal background noise that fundamentally biased and misled the model's decision-making process.
+* **Score: 0.913 🥇 | `final_breakthrough_v4.py`**
+  * **Strategy:** Upgraded to **DINOv2-Large** to capture fine facial muscle movements. Introduced a **weighted Zoom (Center Crop) Test-Time Augmentation (TTA)** to aggressively force the model to focus purely on the animal's facial features.
+  * **Conclusion & Analysis:** **Accurate breakthrough!** By combining DINOv2's physiological landmark resolution with a local zoom-in strategy that stripped away distracting background noise, the model perfectly hit the biological core rule: *"Pet emotion classification highly depends on the eyes."*
+* **Score: 0.900 | `v6_giant_ultimate.py`**
+  * **Strategy:** Employed the most brute-force approach using **DINOv2-Giant** (1536 dimensions) and a massive 10-Crop full-image cropping strategy.
+  * **Conclusion & Analysis:** **Curse of Dimensionality and Noise Backlash.** Over 4096 dimensions triggered severe overfitting. The 10-crop strategy generated patches containing non-informative background areas (wall corners, grass), introducing fatal background noise that biased the model.
 
 ---
 
