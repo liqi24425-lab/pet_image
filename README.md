@@ -84,6 +84,18 @@ We transitioned to end-to-end deep learning and hyperparameter tuning.
   * CLIP-L/14: ~0.860 (improved over CLIP-B/32)
 * **Decision:** Do **not** promote v11 to team submission yet. Keep `submission_final_team_v10.csv` as the default until the CNN branch is replaced/fixed in a more stable way.
 
+### 🧪 Phase 7: Effective Fusion Validation (`v12`)
+
+* **Experiment:** `final_breakthrough_v12_effective_hf_fusion.py`
+  * **Change:** Keep `DINOv2-L + EfficientNet-B5` stable branch, upgrade CLIP from `ViT-B/32` to `ViT-L/14`, keep OOF stacking + conservative pseudo-label gate unchanged.
+* **Offline finding (OOF):**
+  * DINO: `0.9022` acc / `0.9021` macro-F1 (stable)
+  * EffNet-B5: `0.8711` acc / `0.8710` macro-F1 (stable)
+  * CLIP-L/14: `0.8489` acc / `0.8486` macro-F1 (improved vs v10 CLIP `0.7689`)
+  * Stack head: `0.9044` acc / `0.9044` macro-F1 (no gain over v10 stack)
+* **Decision:** `v12` is analysis-only for now, **not promoted** to team default submit file.
+* **Why EffNetV2-L was removed:** in `v11`, EffNetV2-L OOF dropped to ~`0.473`, causing ensemble instability and lowering stack quality. We rolled back to EffNet-B5 because it is materially more reliable on this 450-sample regime.
+
 ---
 
 ## 🛠 Project Structure & Early Phases
@@ -93,25 +105,25 @@ For historical tracking, the repository includes all our preliminary experiments
 - **Phase 4-5**: Mixup, CutMix, 5-Fold Cross Validation (`phase5_advanced_training.py`)
 - **Phase 6**: Statistical Diagnostics (MC Dropout Uncertainty, Grad-CAM, Error Correlation Analysis).
 
-## ⚙️ How to Reproduce the Winning Submission
-To generate the final Kaggle submission and team version:
+## ⚙️ How to Reproduce the Team Submission
+To generate the current team-default Kaggle submission:
 
 ```bash
 # 1. Activate the environment
 source .venv/bin/activate
 
-# 2. Run the winning inference script
-python final_breakthrough_v4.py
+# 2. Run the team mainline script
+python final_breakthrough_v10.py
 
 # 3. Use the team-final file (single submission target)
-# submission_final_team.csv
+# submission_final_team_v10.csv
 ```
 
 ## 📌 Next Actions (Team Plan)
 
-1. Keep `submission_final_team.csv` as the only default submission artifact for team coordination.
-2. Run offline ablation only (no blind multi-submit): compare `baseline_weighted` vs `oof_stack` vs `pseudo_label` on local OOF metrics before spending submission quota.
-3. Investigate the 6 disagreement samples across current variants as a targeted error-analysis set to design the next high-confidence update.
+1. Keep `submission_final_team_v10.csv` as the only default submission artifact for team coordination.
+2. Run offline ablation only (no blind multi-submit): compare `v10` vs `v12` under identical seeds and report only if stack OOF improves.
+3. Investigate the 6 disagreement samples (`v10` vs `v12`) as a targeted error-analysis set before any new leaderboard attempt.
 
 ## 🧭 v10 Experiment Protocol (Single Submission)
 

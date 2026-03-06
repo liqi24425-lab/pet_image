@@ -1,5 +1,5 @@
+import argparse
 import csv
-import hashlib
 import json
 import os
 from datetime import datetime, timezone
@@ -30,8 +30,12 @@ def ensure_registry(path: str) -> None:
         writer.writerow(HEADER)
 
 
-def append_from_metrics(metrics_path: str = "v10_oof_metrics.json", manifest_path: str = "v10_run_manifest.json") -> None:
-    ensure_registry(REG_PATH)
+def append_from_metrics(
+    metrics_path: str = "v10_oof_metrics.json",
+    manifest_path: str = "v10_run_manifest.json",
+    registry_path: str = REG_PATH,
+) -> None:
+    ensure_registry(registry_path)
     with open(metrics_path, "r", encoding="utf-8") as f:
         metrics = json.load(f)
     with open(manifest_path, "r", encoding="utf-8") as f:
@@ -51,12 +55,17 @@ def append_from_metrics(metrics_path: str = "v10_oof_metrics.json", manifest_pat
         "artifact_manifest": "v10_run_manifest.json",
     }
 
-    with open(REG_PATH, "a", newline="", encoding="utf-8") as f:
+    with open(registry_path, "a", newline="", encoding="utf-8") as f:
         writer = csv.DictWriter(f, fieldnames=HEADER)
         writer.writerow(row)
 
-    print(f"Appended registry row for run_id={row['run_id']}")
+    print(f"Appended registry row for run_id={row['run_id']} -> {registry_path}")
 
 
 if __name__ == "__main__":
-    append_from_metrics()
+    parser = argparse.ArgumentParser(description="Append experiment metrics to CSV registry.")
+    parser.add_argument("--metrics", default="v10_oof_metrics.json", help="Path to metrics JSON")
+    parser.add_argument("--manifest", default="v10_run_manifest.json", help="Path to manifest JSON")
+    parser.add_argument("--registry", default=REG_PATH, help="Path to registry CSV")
+    args = parser.parse_args()
+    append_from_metrics(metrics_path=args.metrics, manifest_path=args.manifest, registry_path=args.registry)
