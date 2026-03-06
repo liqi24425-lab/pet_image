@@ -122,7 +122,8 @@ We transitioned to end-to-end deep learning and hyperparameter tuning.
 * **Experiment:** `final_breakthrough_v15_seed_ensemble.py`
 * **Change:** keep `v10` backbone/data flow, but ensemble linear probes over seeds `(42, 52, 62)` for OOF and test probabilities.
 * **Offline finding:** stack OOF `0.9178`, macro-F1 `0.9177`; prediction drift vs `v10` only `0.33%` (2/300 samples).
-* **Decision:** keep as the **next single candidate** for one controlled leaderboard attempt.
+* **Leaderboard check (2026-03-06):** `submission_final_team_v15.csv` scored `0.92666`, tied with `v10`.
+* **Decision:** `v15` is stable but not superior; still a plateau run, not a new best.
 
 ---
 
@@ -149,9 +150,18 @@ python final_breakthrough_v10.py
 
 ## 📌 Next Actions (Team Plan)
 
-1. Keep `submission_final_team_v10.csv` as the only default submission file.
-2. For the next attempt, use only one candidate file: `submission_final_team_v15.csv`.
-3. If `v15` does not beat `v10`, immediately revert to `submission_final_team_v10.csv` as the sole submit target.
+1. Keep `submission_final_team_v10.csv` as the default submission file (same best score as `v15`).
+2. Stop spending submissions on same-family variants (`v10/v13/v15`) until a new method family is validated offline.
+3. Move to new directions below with strict offline gates before any submission.
+
+## 🔭 Next Directions (Post-Plateau)
+
+1. **Face-region refinement before backbone extraction**
+Use pet-face ROI detection / tighter center-region policy to suppress background shortcut features.
+2. **Species-aware heads or adapters**
+Add lightweight species routing (dog/cat/other) and then expression head, reducing cross-species interference.
+3. **Hard-sample denoising loop**
+Use disagreement samples (`v10` vs `v13/v15`) as a fixed hard set for targeted relabel checking or confidence-aware reweighting.
 
 ## 🧭 v10 Experiment Protocol (Single Submission)
 
