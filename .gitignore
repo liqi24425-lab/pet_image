@@ -22,5 +22,9 @@ submission_final_team_v10.csv
 v10_oof_metrics.json
 v10_run_manifest.json
 v10_pseudo_labels_consensus.csv
+submission_final_team_v11.csv
+v11_oof_metrics.json
+v11_run_manifest.json
+v11_pseudo_labels_consensus.csv
 hf/v10_experiments_registry.csv
 oof_metrics.json

@@ -1,5 +1,5 @@
 # STA314H — Pet Facial Expression Classifier (宠物面部表情分类器)
-🏆 **Final Score: 0.920**
+🏆 **Final Score: 0.92666**
 
 > **Course**: STA314H Statistical Machine Learning — University of Toronto  
 > **Task**: 3-class pet facial expression classification (Angry / Happy / Sad)  
@@ -8,7 +8,7 @@ This project documents the entire evolutionary journey of a high-performance ima
 
 ---
 
-## 🚀 The Path to 0.920: Model Evolution & Experimental Analysis
+## 🚀 The Path to 0.92666: Model Evolution & Experimental Analysis
 
 Building this classifier was a continuous process of hypothesis, experimentation, and physiological analysis of pet expressions. Below is the complete record of our model evolution, from early statistical baselines to our final winning deep learning architecture.
 
@@ -70,9 +70,19 @@ We transitioned to end-to-end deep learning and hyperparameter tuning.
 
 ### 🚀 Phase 5: Team Submission Upgrade
 
-* **Score: 0.92000 🥇 | `submission_final_team.csv`**
-  * **Strategy:** Keep the strongest OOF-stacked decision rule as a single team-safe submission (`submission_final_team.csv` copied from `submission_oof_stack.csv`) and avoid risky daily over-submission.
-  * **Conclusion & Analysis:** The OOF-based stacking pipeline generalized better than earlier single-head or aggressive pseudo-label variants, yielding a new public leaderboard best of **0.92000**.
+* **Score: 0.92666 🥇 | `submission_final_team_v10.csv`**
+  * **Strategy:** Use the clean `v10` pipeline (OOF stacking + conservative pseudo-label gate + drift safety checks) as the only team submission target.
+  * **Conclusion & Analysis:** Compared with `submission_final_team.csv` (0.92000), the `v10` single-submission protocol improved leaderboard performance and reduced coordination risk for shared team quota.
+
+### 🧪 Phase 6: Backbone Upgrade Hypothesis (Evaluation)
+
+* **Experiment:** `final_breakthrough_v11_backbone_upgrade.py`
+  * **Change:** Keep DINOv2-Large, replace EfficientNet-B5 with EfficientNetV2-L, and replace CLIP-B/32 with CLIP-L/14.
+* **Offline finding (OOF):**
+  * DINO: ~0.900
+  * EfficientNetV2-L: ~0.473 (major regression)
+  * CLIP-L/14: ~0.860 (improved over CLIP-B/32)
+* **Decision:** Do **not** promote v11 to team submission yet. Keep `submission_final_team_v10.csv` as the default until the CNN branch is replaced/fixed in a more stable way.
 
 ---
 
