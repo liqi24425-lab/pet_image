@@ -1,0 +1,14 @@
+*.pth
+*.h5
+*.ckpt
+train/
+test/
+*_rembg/
+outputs/
+*.csv
+feature_cache/
+hf_cache/
+torch_cache/
+vit_checkpoint/
+__pycache__/
+.DS_Store
