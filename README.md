@@ -179,6 +179,18 @@ We transitioned to end-to-end deep learning and hyperparameter tuning.
   * Multi-Task Multi-Modal SSL for FER: [arXiv:2404.10904](https://arxiv.org/abs/2404.10904)
 * **Traceability file:** `V22_METHOD_SOURCES_CN.md` (method-to-code mapping).
 
+### 🧪 Phase 16: Anchor Consensus Correction (`v23`, low-risk execution)
+
+* **Experiment:** `final_breakthrough_v23_anchor_consensus.py`
+* **Change:** no retraining; start from the best anchor `v10` and only accept label flips supported by multiple later variants (`v15/v16/v20/v22`).
+* **Rules:**
+  * `strong`: apply flip if >=3/4 references agree and differ from `v10`.
+  * `ultra`: apply flip if 4/4 references agree and differ from `v10`.
+* **Generated candidates:**
+  * `submission_final_team_v23_consensus_anchor.csv` (2 flips)
+  * `submission_final_team_v23_ultra_consensus.csv` (1 flip)
+* **Purpose:** use team submission quota rationally by testing tiny, consensus-backed perturbations instead of high-drift architecture jumps.
+
 ## 📚 Version-Wise Method Sources (Mandatory)
 
 To satisfy team traceability requirements, every version now has an explicit method-source annotation (paper-driven or engineering-only):

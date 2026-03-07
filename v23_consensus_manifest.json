@@ -1,0 +1,60 @@
+{
+  "timestamp_utc": "2026-03-07T18:50:48.701684+00:00",
+  "base": "/Users/liqi/Desktop/pet_image-main/submission_final_team_v10.csv",
+  "references": {
+    "v15": "/Users/liqi/Desktop/pet_image-main/submission_final_team_v15.csv",
+    "v16": "/Users/liqi/Desktop/pet_image-main/submission_final_team_v16.csv",
+    "v20": "/Users/liqi/Desktop/pet_image-main/submission_final_team_v20.csv",
+    "v22": "/Users/liqi/Desktop/pet_image-main/submission_final_team_v22.csv"
+  },
+  "rules": {
+    "strong": "apply flip if >=3/4 references agree and differ from base",
+    "ultra": "apply flip if 4/4 references agree and differ from base"
+  },
+  "outputs": {
+    "strong": "/Users/liqi/Desktop/pet_image-main/submission_final_team_v23_consensus_anchor.csv",
+    "ultra": "/Users/liqi/Desktop/pet_image-main/submission_final_team_v23_ultra_consensus.csv"
+  },
+  "strong_change_count": 2,
+  "ultra_change_count": 1,
+  "strong_changes": [
+    {
+      "id": "img_000417.jpg",
+      "old": "Angry",
+      "new": "Sad",
+      "votes": 4,
+      "ref_labels": [
+        "Sad",
+        "Sad",
+        "Sad",
+        "Sad"
+      ]
+    },
+    {
+      "id": "img_000660.jpg",
+      "old": "Sad",
+      "new": "Happy",
+      "votes": 3,
+      "ref_labels": [
+        "Sad",
+        "Happy",
+        "Happy",
+        "Happy"
+      ]
+    }
+  ],
+  "ultra_changes": [
+    {
+      "id": "img_000417.jpg",
+      "old": "Angry",
+      "new": "Sad",
+      "votes": 4,
+      "ref_labels": [
+        "Sad",
+        "Sad",
+        "Sad",
+        "Sad"
+      ]
+    }
+  ]
+}

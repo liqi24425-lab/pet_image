@@ -141,6 +141,7 @@ Level definitions:
 | `final_breakthrough_v20_calibrated_hybrid.py` | Temperature scaling + hybrid head | Calibration `1706.04599` | Direct | Calibration matches paper-level principle |
 | `final_breakthrough_v21_aggressive_siglip_roi_gate.py` | SigLIP + ROI/TTA gate | SigLIP `2303.15343`, Calibration `1706.04599` | Indirect | Gate mechanism is custom |
 | `final_breakthrough_v22_lit_noise_consistency.py` | Noise-aware reweight + multi-view consistency gate | LA-Net `2307.09023`, Multi-Task Multi-Modal SSL FER `2404.10904` | Indirect (explicitly mapped) | See `V22_METHOD_SOURCES_CN.md` |
+| `final_breakthrough_v23_anchor_consensus.py` | Anchor-based consensus label correction over existing submissions | Ensemble/consensus post-processing (engineering) | Engineering | No new feature extractor; deterministic low-drift label reconciliation |
 | `remove_bg.py` | Background-removal preprocessing | U^2-Net `2005.09007` (nearest) | Indirect | If rembg/SAM backend changes, citation must be updated |
 | `step1_rembg_purify.py` | Background removal + data purification | U^2-Net `2005.09007` (nearest) | Indirect | Pipeline-level preprocessing |
 | `direction_benchmark_v20.py` | Directional benchmark script | Reuses v17-v20 method families | Engineering | Not an independent paper method |
