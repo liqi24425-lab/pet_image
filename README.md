@@ -132,6 +132,26 @@ We transitioned to end-to-end deep learning and hyperparameter tuning.
 * **Offline finding:** stack OOF remained `0.9178` (same as `v15`), no measurable gain.
 * **Decision:** keep `v16` as analysis-only; off-center ROI handling is valid but not yet a score breakthrough.
 
+### 🧪 Phase 12: Full-Pseudo Validation (`v17`, submitted and rejected)
+
+* **Experiment:** `final_breakthrough_v17_species_adapter.py`
+* **Change:** Full TTA + multi-seed probes + forced pseudo-label branch.
+* **Offline finding:** stack OOF looked strong (`~0.924`), but pseudo selection ratio was very high (`~50%`) once enabled.
+* **Leaderboard check (2026-03-07):** `submission_final_team_v17.csv` scored `0.91333`, significantly below `v10/v15` (`0.92666`).
+* **Decision:** reject pseudo-on path as default. For this dataset, pseudo labels amplify noise and hurt public LB.
+
+### 🧪 Phase 13: Calibrated Hybrid Without Pseudo (`v20`, offline candidate)
+
+* **Experiment:** `final_breakthrough_v20_calibrated_hybrid.py`
+* **Change:** keep 3 backbones + 5-fold/3-seed OOF, disable pseudo by default, add:
+  * per-backbone temperature calibration on OOF probabilities,
+  * hybrid decision head (`meta_proba` + weighted ensemble) tuned by OOF alpha.
+* **Offline finding:**
+  * stack OOF: `0.9244` acc / `0.9243` macro-F1
+  * prediction drift vs `submission_final_team.csv`: `1/300` sample
+  * prediction drift vs `v10`: `2/300` samples
+* **Status:** high-stability candidate for next single submission attempt.
+
 ---
 
 ## 🛠 Project Structure & Early Phases
