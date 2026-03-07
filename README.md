@@ -179,6 +179,13 @@ We transitioned to end-to-end deep learning and hyperparameter tuning.
   * Multi-Task Multi-Modal SSL for FER: [arXiv:2404.10904](https://arxiv.org/abs/2404.10904)
 * **Traceability file:** `V22_METHOD_SOURCES_CN.md` (method-to-code mapping in Chinese).
 
+## 📚 Version-Wise Method Sources (Mandatory)
+
+To satisfy team traceability requirements, every version now has an explicit method-source annotation (paper-driven or engineering-only):
+
+- `VERSION_METHOD_SOURCES_CN.md` (full version index, Chinese)
+- `V22_METHOD_SOURCES_CN.md` (v22 detailed mapping)
+
 ---
 
 ## 🛠 Project Structure & Early Phases
