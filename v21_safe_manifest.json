@@ -1,0 +1,12 @@
+{
+  "source": "risk_aware_consensus_override",
+  "base": "submission_final_team_v10.csv",
+  "aggressive": "submission_final_team_v21.csv",
+  "support": "submission_final_team_v20.csv",
+  "rule": "apply change only if v20 and v21 agree and both differ from v10",
+  "changed_count": 1,
+  "changed_ids": [
+    "img_000660.jpg"
+  ],
+  "output": "submission_final_team_v21_safe.csv"
+}

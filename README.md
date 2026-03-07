@@ -152,6 +152,22 @@ We transitioned to end-to-end deep learning and hyperparameter tuning.
   * prediction drift vs `v10`: `2/300` samples
 * **Status:** high-stability candidate for next single submission attempt.
 
+### 🧪 Phase 14: Aggressive SigLIP + ROI/TTA Gate (`v21`, offline)
+
+* **Experiment:** `final_breakthrough_v21_aggressive_siglip_roi_gate.py`
+* **Change:** aggressive branch with:
+  * SigLIP vision backbone (fallback to CLIP-B/32 if loading fails),
+  * ROI / ROI-flip TTA views,
+  * per-sample TTA confidence gating,
+  * calibrated hybrid head (same no-pseudo policy).
+* **Offline finding:**
+  * CLIP-branch OOF improved (`~0.8556`, up from `~0.8356` in v20).
+  * Stack OOF stayed around `0.9244` (no clear gain over v20).
+  * Drift vs `v10` increased (`8/300` changed), so direct submission risk is higher.
+* **Risk-controlled derivative:** `submission_final_team_v21_safe.csv`
+  * Rule: only keep flips where `v20` and `v21` agree and both differ from `v10`.
+  * Result: only `1/300` label changed (`img_000660.jpg`), for low-quota test.
+
 ---
 
 ## 🛠 Project Structure & Early Phases
