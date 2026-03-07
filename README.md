@@ -177,14 +177,14 @@ We transitioned to end-to-end deep learning and hyperparameter tuning.
 * **Paper sources (explicit):**
   * LA-Net: [arXiv:2307.09023](https://arxiv.org/abs/2307.09023)
   * Multi-Task Multi-Modal SSL for FER: [arXiv:2404.10904](https://arxiv.org/abs/2404.10904)
-* **Traceability file:** `V22_METHOD_SOURCES_CN.md` (method-to-code mapping in Chinese).
+* **Traceability file:** `V22_METHOD_SOURCES_CN.md` (method-to-code mapping).
 
 ## 📚 Version-Wise Method Sources (Mandatory)
 
 To satisfy team traceability requirements, every version now has an explicit method-source annotation (paper-driven or engineering-only):
 
-- `VERSION_METHOD_SOURCES_CN.md` (full version index, Chinese)
-- `V22_METHOD_SOURCES_CN.md` (v22 detailed mapping)
+- `VERSION_METHOD_SOURCES_CN.md` (full version index, English)
+- `V22_METHOD_SOURCES_CN.md` (v22 detailed mapping, with explicit paper links)
 
 `VERSION_METHOD_SOURCES_CN.md` is now maintained in strict per-script mode (from early baseline to v22), including: implemented method, arXiv source, directness level, and rigor notes.
 
