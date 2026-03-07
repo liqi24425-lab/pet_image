@@ -168,6 +168,17 @@ We transitioned to end-to-end deep learning and hyperparameter tuning.
   * Rule: only keep flips where `v20` and `v21` agree and both differ from `v10`.
   * Result: only `1/300` label changed (`img_000660.jpg`), for low-quota test.
 
+### 🧪 Phase 15: Literature-Driven v22 (Noise + Multi-view Consistency)
+
+* **Experiment:** `final_breakthrough_v22_lit_noise_consistency.py`
+* **Change:** add two literature-backed modules while keeping the v10/v20 backbone family:
+  * **Noise-aware reweight** (inspired by LA-Net): down-weight uncertain / likely noisy training samples using OOF confidence + entropy.
+  * **Multi-view consistency gate** (inspired by multi-view FER SSL): split TTA into global vs ROI groups and gate conflicts by confidence margin.
+* **Paper sources (explicit):**
+  * LA-Net: [arXiv:2307.09023](https://arxiv.org/abs/2307.09023)
+  * Multi-Task Multi-Modal SSL for FER: [arXiv:2404.10904](https://arxiv.org/abs/2404.10904)
+* **Traceability file:** `V22_METHOD_SOURCES_CN.md` (method-to-code mapping in Chinese).
+
 ---
 
 ## 🛠 Project Structure & Early Phases
