@@ -186,6 +186,8 @@ To satisfy team traceability requirements, every version now has an explicit met
 - `VERSION_METHOD_SOURCES_CN.md` (full version index, Chinese)
 - `V22_METHOD_SOURCES_CN.md` (v22 detailed mapping)
 
+`VERSION_METHOD_SOURCES_CN.md` is now maintained in strict per-script mode (from early baseline to v22), including: implemented method, arXiv source, directness level, and rigor notes.
+
 ---
 
 ## 🛠 Project Structure & Early Phases
