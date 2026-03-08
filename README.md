@@ -202,14 +202,27 @@ We transitioned to end-to-end deep learning and hyperparameter tuning.
   * `submission_final_team_v24_atomic_top2.csv` (top-2 strongest flips)
 * **Why this method:** it is a multi-version strong-consistency strategy that is more innovative than simple majority vote, while still controlling drift and submission risk.
 
+### 🧪 Phase 18: Lightweight MoE Router Validation (`v26`, full run)
+
+* **Experiment:** `final_breakthrough_v26_lightweight_moe.py`
+* **What changed:**
+  * fixed CPU branch logic so full stack path can still run under lightweight feature mode,
+  * kept v22-family hybrid stack (`weighted + meta + TTA gate + noise reweight`),
+  * added MoE-style router decision over three experts (`weighted`, `meta`, `consistency`).
+* **Offline result (2026-03-08):**
+  * `stack_oof_acc = 0.9200`, `stack_oof_macro_f1 = 0.9200`,
+  * router candidate `0.9178` was rejected by OOF criterion,
+  * final output drift vs `submission_final_team.csv`: `18/300`.
+* **Decision:** not promoted to team default; keep `submission_final_team_v10.csv` / `submission_final_team_v15.csv` as safer top-tier anchors.
+
 ## 📚 Version-Wise Method Sources (Mandatory)
 
 To satisfy team traceability requirements, every version now has an explicit method-source annotation (paper-driven or engineering-only):
 
-- `VERSION_METHOD_SOURCES_CN.md` (full version index, English)
-- `V22_METHOD_SOURCES_CN.md` (v22 detailed mapping, with explicit paper links)
+- `VERSION_METHOD_SOURCES.md` (full version index, English, current)
+- `V22_METHOD_SOURCES_CN.md` (v22 detailed mapping; Chinese)
 
-`VERSION_METHOD_SOURCES_CN.md` is now maintained in strict per-script mode (from early baseline to v22), including: implemented method, arXiv source, directness level, and rigor notes.
+`VERSION_METHOD_SOURCES.md` is maintained in strict per-script mode (from early baseline to v26), including: implemented method, arXiv source, directness level, and rigor notes.
 
 ---
 
