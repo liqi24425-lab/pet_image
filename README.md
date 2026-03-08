@@ -191,6 +191,17 @@ We transitioned to end-to-end deep learning and hyperparameter tuning.
   * `submission_final_team_v23_ultra_consensus.csv` (1 flip)
 * **Purpose:** use team submission quota rationally by testing tiny, consensus-backed perturbations instead of high-drift architecture jumps.
 
+### 🧪 Phase 17: Atomic Consensus Ladder (`v24`, bold but controlled)
+
+* **Experiment:** `final_breakthrough_v24_atomic_consensus.py`
+* **Change:** keep `v10` as anchor, aggregate votes from all `submission_final_team_v*.csv` variants with reliability weighting:
+  * weight uses OOF quality + drift penalty + stability bonus,
+  * apply only flips with strong weighted support and multi-version agreement.
+* **Generated candidates:**
+  * `submission_final_team_v24_atomic_top1.csv` (only strongest flip)
+  * `submission_final_team_v24_atomic_top2.csv` (top-2 strongest flips)
+* **Why this method:** it is a multi-version strong-consistency strategy that is more innovative than simple majority vote, while still controlling drift and submission risk.
+
 ## 📚 Version-Wise Method Sources (Mandatory)
 
 To satisfy team traceability requirements, every version now has an explicit method-source annotation (paper-driven or engineering-only):

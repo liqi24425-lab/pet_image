@@ -1,0 +1,163 @@
+{
+  "timestamp_utc": "2026-03-08T00:53:47.715946+00:00",
+  "base": "/Users/liqi/Desktop/pet_image-main/submission_final_team_v10.csv",
+  "version_count": 15,
+  "versions": [
+    {
+      "name": "v11",
+      "weight": 0.04742873142301862,
+      "oof": 0.9133333333333333,
+      "drift_vs_v10": 0.03666666666666667
+    },
+    {
+      "name": "v12",
+      "weight": 0.046900249976536475,
+      "oof": 0.9044444444444445,
+      "drift_vs_v10": 0.02
+    },
+    {
+      "name": "v13",
+      "weight": 0.04640263928521806,
+      "oof": 0.9066666666666666,
+      "drift_vs_v10": 0.023333333333333334
+    },
+    {
+      "name": "v14",
+      "weight": 0.0378900927193799,
+      "oof": 0.9,
+      "drift_vs_v10": 0.08666666666666667
+    },
+    {
+      "name": "v15",
+      "weight": 0.08655823984159247,
+      "oof": 0.9177777777777778,
+      "drift_vs_v10": 0.006666666666666667
+    },
+    {
+      "name": "v16",
+      "weight": 0.08536444316502281,
+      "oof": 0.9177777777777778,
+      "drift_vs_v10": 0.013333333333333334
+    },
+    {
+      "name": "v17",
+      "weight": 0.06241486862288159,
+      "oof": 0.9244444444444444,
+      "drift_vs_v10": 0.01
+    },
+    {
+      "name": "v18",
+      "weight": 0.04897623818444322,
+      "oof": 0.9111111111111111,
+      "drift_vs_v10": 0.013333333333333334
+    },
+    {
+      "name": "v19",
+      "weight": 0.04743380904711179,
+      "oof": 0.9111111111111111,
+      "drift_vs_v10": 0.023333333333333334
+    },
+    {
+      "name": "v20",
+      "weight": 0.09308419059254537,
+      "oof": 0.9244444444444444,
+      "drift_vs_v10": 0.006666666666666667
+    },
+    {
+      "name": "v21",
+      "weight": 0.059173286167156974,
+      "oof": 0.9244444444444444,
+      "drift_vs_v10": 0.02666666666666667
+    },
+    {
+      "name": "v21_safe",
+      "weight": 0.07946950102444297,
+      "oof": 0.9,
+      "drift_vs_v10": 0.0033333333333333335
+    },
+    {
+      "name": "v22",
+      "weight": 0.061870185713624064,
+      "oof": 0.9266666666666666,
+      "drift_vs_v10": 0.023333333333333334
+    },
+    {
+      "name": "v23_consensus_anchor",
+      "weight": 0.0789446306321473,
+      "oof": 0.9,
+      "drift_vs_v10": 0.006666666666666667
+    },
+    {
+      "name": "v23_ultra_consensus",
+      "weight": 0.07946950102444297,
+      "oof": 0.9,
+      "drift_vs_v10": 0.0033333333333333335
+    }
+  ],
+  "selection_rule": "top_label!=v10 AND weighted_support>=0.60 AND agree_count>=3",
+  "all_candidate_flips": [
+    {
+      "id": "img_000417.jpg",
+      "old": "Angry",
+      "new": "Sad",
+      "support": 0.651171,
+      "agree_count": 9,
+      "weighted_votes": {
+        "Sad": 0.626023,
+        "Angry": 0.335358
+      }
+    },
+    {
+      "id": "img_000660.jpg",
+      "old": "Sad",
+      "new": "Happy",
+      "support": 0.641506,
+      "agree_count": 9,
+      "weighted_votes": {
+        "Sad": 0.344649,
+        "Happy": 0.616731
+      }
+    }
+  ],
+  "top1_flips": [
+    {
+      "id": "img_000417.jpg",
+      "old": "Angry",
+      "new": "Sad",
+      "support": 0.651171,
+      "agree_count": 9,
+      "weighted_votes": {
+        "Sad": 0.626023,
+        "Angry": 0.335358
+      }
+    }
+  ],
+  "top2_flips": [
+    {
+      "id": "img_000417.jpg",
+      "old": "Angry",
+      "new": "Sad",
+      "support": 0.651171,
+      "agree_count": 9,
+      "weighted_votes": {
+        "Sad": 0.626023,
+        "Angry": 0.335358
+      }
+    },
+    {
+      "id": "img_000660.jpg",
+      "old": "Sad",
+      "new": "Happy",
+      "support": 0.641506,
+      "agree_count": 9,
+      "weighted_votes": {
+        "Sad": 0.344649,
+        "Happy": 0.616731
+      }
+    }
+  ],
+  "outputs": {
+    "top1": "/Users/liqi/Desktop/pet_image-main/submission_final_team_v24_atomic_top1.csv",
+    "top2": "/Users/liqi/Desktop/pet_image-main/submission_final_team_v24_atomic_top2.csv"
+  }
+}
