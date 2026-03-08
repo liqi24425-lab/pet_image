@@ -215,6 +215,22 @@ We transitioned to end-to-end deep learning and hyperparameter tuning.
   * final output drift vs `submission_final_team.csv`: `18/300`.
 * **Decision:** not promoted to team default; keep `submission_final_team_v10.csv` / `submission_final_team_v15.csv` as safer top-tier anchors.
 
+## 🧾 Kaggle Public Score Register (Screenshot-Verified)
+
+Snapshot source: team Kaggle submissions page screenshot (recorded on 2026-03-08).
+
+| Submission File | Public Score | Notes |
+|---|---:|---|
+| `submission_final_team_v22.csv` | `0.91333` | Byran Li |
+| `submission_v5_ensemble.csv` | `0.91333` | Ruiqii Liu |
+| `submission_final_team_v21.csv` | `0.90000` | Byran Li |
+| `submission_final_team_v20.csv` | `0.92000` | Byran Li |
+| `submission_final_team_v17.csv` | `0.91333` | Byran Li |
+| `submission_final_team_v16.csv` | `0.92000` | Byran Li |
+| `submission_final_team_v15.csv` | `0.92666` | Byran Li (best tier, tied) |
+| `submission_final_team_v13.csv` | `0.92000` | Byran Li |
+| `submission_final_team_v10.csv` | `0.92666` | Byran Li (best tier, tied) |
+
 ## 📚 Version-Wise Method Sources (Mandatory)
 
 To satisfy team traceability requirements, every version now has an explicit method-source annotation (paper-driven or engineering-only):
