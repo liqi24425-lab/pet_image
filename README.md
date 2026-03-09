@@ -215,6 +215,41 @@ We transitioned to end-to-end deep learning and hyperparameter tuning.
   * final output drift vs `submission_final_team.csv`: `18/300`.
 * **Decision:** not promoted to team default; keep `submission_final_team_v10.csv` / `submission_final_team_v15.csv` as safer top-tier anchors.
 
+## 🧩 Feature Extractor / Classifier / Method Mapping
+
+The table below keeps the current README narrative unchanged, and explicitly adds (for each model family/version) the feature extraction method, classifier head, and extra methods used.
+
+| Version / Script | Feature Extractor (how features are extracted) | Classifier (head / decision) | Extra methods used |
+|---|---|---|---|
+| `phase 2` (PCA baseline) | Raw pixel -> PCA principal components (Eigenfaces style) | Ridge-style linear classifier/regressor | Standardization + CV-style tuning |
+| `0.84.py` | `ResNet18` penultimate features (512-d, frozen pretrained backbone) | `LogisticRegression` (`L2` Ridge; optional `L1`) | `StandardScaler` |
+| `0.84-pro.py` | `ResNet18` frozen feature extractor | `LogisticRegression` (`L2`) with `GridSearchCV` on `C` | 5-fold CV |
+| `0.84-pro-clip-elastic-raw.py` | `CLIP ViT-B/32` `image_embeds` (512-d) | `LogisticRegression` with `penalty='elasticnet'` | 2D grid search (`C`, `l1_ratio`) |
+| `0.84-pro-clip-elastic-rmbg.py` | `CLIP ViT-B/32` image features on background-removed images | `LogisticRegression` with ElasticNet | Background removal + grid search |
+| `0.84-end-to-end` / `0.84-advanced` | End-to-end CNN training (ResNet family) | CNN `Linear` softmax head (cross-entropy) | stronger augmentation / schedule |
+| `ultimate_baseline.py` | Fine-tuned `ResNet18`, then `fc -> Identity` for 512-d features | `LogisticRegression` (`L2`) | `GridSearchCV` |
+| `pro_max.py` | Same `ResNet18` 512-d features as `ultimate_baseline` | `LogisticRegression` (`L2`) + KNN-like retrieval blend | Visual RAG / similarity fusion |
+| `pro_max_v2.py` | Fine-tuned `EfficientNet-B0`, then 1280-d penultimate features | `LogisticRegression` (`L2`) + KNN-like retrieval blend | MixUp + RandomErasing + RAG fusion |
+| `ultimate_god_mode.py` | `EffNet-B5` + `CLIP` feature fusion | ElasticNet `LogisticRegression` | Pseudo-label expansion |
+| `mega_ensemble_v3.py` | `EffNet-B5` + `DINOv2-S` + `CLIP` concatenated features | ElasticNet `LogisticRegression` | Pseudo labels + high-dim fusion |
+| `final_breakthrough_v4.py` | `DINOv2-L` + `EffNet-B5` + `CLIP-B/32` multi-backbone extraction | Per-backbone linear probe (`nn.Linear`) + ElasticNet `LogisticRegression` meta-learner | OOF stacking + weighted TTA + consensus pseudo-label |
+| `v6_giant_ultimate.py` | `DINOv2-G` high-dimensional + multi-crop extraction | Same stack family as v4 (linear probes + stacked decision) | 10-crop aggressive TTA |
+| `final_breakthrough_v10.py` | `DINOv2-L` + `EffNet-B5` + `CLIP-B/32` | Per-backbone linear probe + ElasticNet logistic meta stack | OOF stacking + conservative pseudo gate + drift safety checks |
+| `final_breakthrough_v11_backbone_upgrade.py` | `DINOv2-L` + `EffNetV2-L` + `CLIP-L/14` | Same as v10 (linear probes + ElasticNet meta stack) | Backbone upgrade ablation |
+| `final_breakthrough_v12_effective_hf_fusion.py` | `DINOv2-L` + `EffNet-B5` + `CLIP-L/14` | Same as v10 (linear probes + ElasticNet meta stack) | Effective fusion validation |
+| `final_breakthrough_v13_hybrid_stack.py` | Same 3-backbone extraction as v12 | ElasticNet meta model + weighted ensemble hybrid (`alpha * meta + (1-alpha) * weighted`) | True-OOF alpha tuning |
+| `final_breakthrough_v14_robust_prior.py` | Same 3-backbone extraction | Linear probes + ElasticNet meta stack | Reliability reweight + robust prior adaptation |
+| `final_breakthrough_v15_seed_ensemble.py` | Same 3-backbone extraction | Multi-seed linear probes + ElasticNet meta stack | Seed ensemble (`42/52/62`) |
+| `final_breakthrough_v16_adaptive_roi.py` | Same backbone family, with adaptive ROI views | Same stack family (linear probes + meta logistic) | Adaptive ROI TTA gate |
+| `final_breakthrough_v17_species_adapter.py` | Same backbone family + species features | Hybrid stack with species-adapter features | Full pseudo route + species adapter |
+| `final_breakthrough_v20_calibrated_hybrid.py` | Same 3-backbone extraction | Per-backbone logistic probes + fixed `LogisticRegression` meta learner (`lbfgs`) | Temperature calibration + hybrid blending |
+| `final_breakthrough_v21_aggressive_siglip_roi_gate.py` | `DINOv2` + `EffNet` + `SigLIP` (fallback `CLIP-B/32`) | Per-backbone logistic probes + fixed logistic meta learner | ROI/ROI-flip TTA + confidence gating + calibration |
+| `final_breakthrough_v22_lit_noise_consistency.py` | Same as v21 family | Per-backbone logistic probes + fixed logistic meta learner | Noise-aware reweight + multi-view consistency gate |
+| `final_breakthrough_v23_anchor_consensus.py` | No new feature extraction (submission-level post-process) | No trained classifier; deterministic consensus flip rules | Anchor consensus from `v10/v15/v16/v20/v22` |
+| `final_breakthrough_v24_atomic_consensus.py` | No new feature extraction (submission-level post-process) | No trained classifier; reliability-weighted vote ladder | Atomic top-k low-drift consensus flips |
+| `final_breakthrough_v25_moe_router.py` | 3-backbone extraction (`DINOv2` + `EffNet` + `CLIP`) | Hybrid stack + MoE router (`LogisticRegression`) over experts (`weighted`, `meta`, `consistency`) | Temperature calibration + router gating + noise-aware refit |
+| `final_breakthrough_v26_lightweight_moe.py` | Same as v25, with CPU/lightweight branch support | Hybrid stack + MoE router (accepted/rejected by OOF criterion) | Lightweight stack path + calibration + optional pseudo gate |
+
 ## 🧾 Kaggle Public Score Register (Screenshot-Verified)
 
 Snapshot source: team Kaggle submissions page screenshot (recorded on 2026-03-08).
