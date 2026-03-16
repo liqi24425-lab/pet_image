@@ -1,5 +1,5 @@
 # STA314H — Pet Facial Expression Classifier (宠物面部表情分类器)
-🏆 **Final Score: 0.92666**
+🏆 **Official Team Score: 0.92666** | **Best Ablation Score: 0.93333 (minus-CLIP)**
 
 > **Course**: STA314H Statistical Machine Learning — University of Toronto  
 > **Task**: 3-class pet facial expression classification (Angry / Happy / Sad)  
@@ -43,7 +43,7 @@ We transitioned to end-to-end deep learning and hyperparameter tuning.
 * **Score: 0.800 | `submission-resnet50`**
   * **Strategy:** Scaled ResNet-18 up to **ResNet-50** based on the `ultimate_baseline`.
   * **Analysis:** Severe overfitting. A deeper network without matching data volumes hurt performance.
-* **Score: 0.806 | `0.84-lasso`**
+* **Score: 0.806 | `0.84-lasso.py`**
   * **Strategy:** Swapped Ridge (L2) for Lasso (L1) on top of the original 0.84 baseline.
   * **Analysis:** Lasso's feature selection (setting weights to zero) was too aggressive for complex visual features, dropping the score.
 * **Score: 0.840 | `0.84-end-to-end`**
@@ -214,6 +214,20 @@ We transitioned to end-to-end deep learning and hyperparameter tuning.
   * router candidate `0.9178` was rejected by OOF criterion,
   * final output drift vs `submission_final_team.csv`: `18/300`.
 * **Decision:** not promoted to team default; keep `submission_final_team_v10.csv` / `submission_final_team_v15.csv` as safer top-tier anchors.
+
+### 🧪 Phase 19: E5 Backbone Removal Ablation Batch (2026-03-15)
+
+* **Experiment package:** `ablation_runs_20260315/run_ablation_package.py`
+* **Leaderboard-side finding:**
+  * `ABL_20260315_E5_full_3backbones.csv`: `0.92666`
+  * `ABL_20260315_E5_minus_clip.csv`: `0.93333` (new best in this ablation batch)
+  * `ABL_20260315_E5_minus_effnet.csv`: `0.92666`
+  * `ABL_20260315_E5_minus_dino.csv`: `0.89333`
+* **Strict same-split OOF re-check (seed=42, 5-fold):**
+  * source: `ablation_runs_20260315/outputs/stage4_e5_backbone_table.csv`
+  * weighted OOF: full-3B `0.9067` vs minus-CLIP `0.9067` (tie)
+  * stacked OOF: full-3B `0.9022` vs minus-CLIP `0.9089` (`+0.0067`)
+  * interpretation: minus-CLIP appears promising but should be treated as configuration-dependent evidence; not a blanket claim that CLIP is always harmful.
 
 ## 🧩 Feature Extractor / Classifier / Method Mapping
 
